@@ -1,3 +1,4 @@
+import twitter_login
 import tweepy
 import markovify
 import wordfilter
@@ -11,10 +12,11 @@ import offensive
 
 # In[2]:
 
-with open ("titles.txt", encoding="utf-8") as f:
+with open ("/home/staeiou/bots/dystopedia/titles.txt", encoding="utf-8") as f:
     deltext = f.read()
 
-
+deltext = deltext.replace(".", " ")
+deltext = deltext.encode('ascii', 'ignore').decode('ascii')
 # In[3]:
 
 deletion_model = markovify.NewlineText(deltext)
@@ -23,16 +25,19 @@ deletion_model = markovify.NewlineText(deltext)
 # In[4]:
 
 tweet = None
-for i in range(10):
-    title = deletion_model.make_short_sentence(130)
+tweets = []
+for i in range(50):
+    title = deletion_model.make_short_sentence(100)
     if title is not None and not wordfilter.blacklisted(title) and offensive.tact(title):
-        tweet = title
+        tweets.append(title)
+
+tweets = sorted(tweets, key=len, reverse=True)
 
 
 # In[5]:
 
-if tweet is not None:
-    print(tweet)
+if tweets[0] is not None:
+    print(tweets[0])
 
 
 CONSUMER_KEY = twitter_login.CONSUMER_KEY
@@ -46,4 +51,4 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-api.update_status(tweet)
+api.update_status(tweets[0])
