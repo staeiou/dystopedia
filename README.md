@@ -7,3 +7,5 @@ The data in titles.txt is drawn from the first version of [deletionpedia](http:/
     sort -u titles.txt
     awk 'NR%2==0' titles.txt
 
+### Getting a full list of deleted Wikipedia articles
+You can get titles of deleted Wikipedia articles from Quarry, the live SQL query service built by @yuvipanda. However, this has a lot more profanity, gibberish, hate speech, personal attacks, and other nasty things that aren't really funny in a bot like this. Getting the entire log in the English-language Wikipedia is a big task that takes more time than Quarry allows for queries, but you can get a subset sample [here](https://quarry.wmflabs.org/query/14602). You would also have to replace all underscores with spaces for markovify to work.
