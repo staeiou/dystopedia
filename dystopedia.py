@@ -1,3 +1,4 @@
+import random
 import twitter_login
 import tweepy
 import markovify
@@ -26,18 +27,18 @@ deletion_model = markovify.NewlineText(deltext)
 
 tweet = None
 tweets = []
-for i in range(50):
-    title = deletion_model.make_short_sentence(100)
+for i in range(250):
+    title = deletion_model.make_short_sentence(90)
     if title is not None and not wordfilter.blacklisted(title) and offensive.tact(title):
         tweets.append(title)
 
 tweets = sorted(tweets, key=len, reverse=True)
-
+rand_num = random.randrange(0,25)
 
 # In[5]:
 
-if tweets[0] is not None:
-    print(tweets[0])
+if tweets[rand_num] is not None:
+    print(tweets[rand_num])
 
 
 CONSUMER_KEY = twitter_login.CONSUMER_KEY
@@ -51,4 +52,4 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-api.update_status(tweets[0])
+api.update_status(tweets[rand_num])
